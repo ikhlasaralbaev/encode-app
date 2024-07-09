@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/new-logo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Energostroy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+    const accordions = document.querySelectorAll('.accordion')
+
+    const openAccordion = accordion => {
+      const content = accordion.querySelector('.accordion__content')
+      accordion.classList.add('accordion__active')
+      content.style.maxHeight = content.scrollHeight + 'px'
+    }
+
+    const closeAccordion = accordion => {
+      const content = accordion.querySelector('.accordion__content')
+      accordion.classList.remove('accordion__active')
+      content.style.maxHeight = null
+    }
+
+    accordions.forEach(accordion => {
+      const intro = accordion.querySelector('.accordion__intro')
+      const content = accordion.querySelector('.accordion__content')
+
+      intro.onclick = () => {
+        if (content.style.maxHeight) {
+          closeAccordion(accordion)
+        } else {
+          accordions.forEach(accordion => closeAccordion(accordion))
+          openAccordion(accordion)
+        }
+      }
+    })
+
+    //bot token
+    var telegram_bot_id = '7096828068:AAF9r1RFuC8BUWnWBbYJs4wFQFZGujooLi0' // token'ni o'rniga Siz yaratgan Bot tokenini yozing
+    //chat id
+    var chat_id = 2242538 // 1111'ni o'rniga habar borishi kerak bo'lgan joyni ID'sini yozing (Batafsil videoda)
+    var u_name, email, message
+    var ready = function () {
+      u_name = document.getElementById('name').value
+      email = document.getElementById('email').value
+      message = document.getElementById('phone').value
+      message = 'FIO: ' + u_name + '\nEmail: ' + email + '\nPhone: ' + message
+    }
+    var sendtelegram = function () {
+      ready()
+      var settings = {
+        async: true,
+        crossDomain: true,
+        url: 'https://api.telegram.org/bot' + telegram_bot_id + '/sendMessage',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'cache-control': 'no-cache',
+        },
+        data: JSON.stringify({
+          chat_id: chat_id,
+          text: message,
+        }),
+      }
+      $.ajax(settings).done(function (response) {
+        Swal.fire({
+          title: 'Данные успешно отправлены!',
+          text: 'Наш менеджер свяжется с вами в удобное для вас время.',
+          icon: 'success',
+        })
+      })
+      document.getElementById('name').value = ''
+      document.getElementById('email').value = ''
+      document.getElementById('phone').value = ''
+      return false
+    }
+
+    $('#menu-btn').on('click', () => {
+      $('#menu').show(400)
+    })
+
+    $('#menu-close-btn').on('click', () => {
+      $('#menu').hide(400)
+    })
+
+  </script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#18aeb5',
+          }
+        },
+        screens: {
+          sm: '0px',
+          md: '768px',
+          lg: '1024px',
+          xl: '1120px'
+        }
+      }
+    }
+  </script>
+</head>
+
+<body>
+
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+
+
+</body>
+
+</html>
